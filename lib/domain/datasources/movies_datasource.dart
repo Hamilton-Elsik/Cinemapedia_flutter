@@ -1,6 +1,21 @@
-import 'package:flutter_cinemapedia/domain/entities/movie.dart';
+import '../entities/entities.dart';
 
 abstract class MoviesDatasource {
 
   Future<List<Movie>> getNowPlaying({ int page = 1 });
+
+  Future<List<Movie>> getPopular({int page = 1});
+
+  Future<List<Movie>> getUpcoming({int page = 1});
+
+  Future<List<Movie>> getTopRated({int page = 1});
+
+  Future<Movie> getMovieById(String id);
+
+  Future<List<Movie>> searchMovies(String query);
+
+  Future<List<Movie>> getSimilarMovies(int genreId);
+
+  Future<List<Movie>> getYoutubeVideosById(int movieId);
+
 }
