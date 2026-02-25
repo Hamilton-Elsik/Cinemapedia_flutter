@@ -3,6 +3,9 @@ import 'package:flutter_cinemapedia/config/constants/environment.dart';
 import 'package:flutter_cinemapedia/domain/datasources/actors_datasource.dart';
 import 'package:flutter_cinemapedia/domain/entities/actor.dart';
 
+import '../mappers/mappers.dart';
+import '../models/models.dart';
+
 class ActorMovieDBDatasource extends ActorsDatasource{
 
   final dio = Dio(BaseOptions(
