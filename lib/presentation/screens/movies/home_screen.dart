@@ -1,49 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cinemapedia/presentation/providers/providers.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
-
+class HomeScreen extends StatefulWidget {
   static const name = 'home-screen';
-  const HomeScreen({super.key});
+  final int pageIndex;
+
+  const HomeScreen({super.key, required this.pageIndex});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: _HomeView(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeView  extends ConsumerStatefulWidget {
-  const _HomeView();
+//*Este Mixin es necesario para mantener el estado en la PageView
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
+  late PageController pageController;
 
-  @override
-  _HomeViewState createState() => _HomeViewState();
-}
-
-class _HomeViewState extends ConsumerState<_HomeView> {
-  
   @override
   void initState() {
     super.initState();
+    pageController = PageController(initialPage: widget.pageIndex);
+  }
 
-    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+  final viewRoutes = const <Widget>[
+    HomeView(),
+    PopularView(), //<------- categorias de view
+    FavoritesView(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    if (pageController.hasClients) {
+      pageController.animateToPage(
+        widget.pageIndex,
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 500),
+      );
+    }
+
+    return Scaffold(
+      body: PageView(
+        //* Esto evitarà que rebote
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        // index. pageIndex
+        children: viewRoutes,
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: widget.pageIndex,
+      ),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-
-
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final movie = nowPlayingMovies[index];
-        return ListTile(
-          title: Text(movie.title),
-        );
-      },
-    );
-  }
+  bool get wantKeepAlive => true;
 }
