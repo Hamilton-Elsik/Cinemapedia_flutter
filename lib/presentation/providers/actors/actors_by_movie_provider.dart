@@ -1,4 +1,5 @@
 import 'package:flutter_cinemapedia/domain/entities/actor.dart';
+import 'package:flutter_cinemapedia/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final actorsByMovieProvider = StateNotifierProvider<ActorsByMovieNotifier, Map<String, List<Actor>>>((ref){
@@ -6,8 +7,10 @@ final actorsByMovieProvider = StateNotifierProvider<ActorsByMovieNotifier, Map<S
 
   return ActorsByMovieNotifier( getActors: actorsRepository.getActorsByMovie); 
 });
+typedef GetActorsCallback = Future<List<Actor>> Function( String movieId );
 
-typedef GetActorsCallback = Future<List<Actor>>{
+
+class ActorsByMovieNotifier extends StateNotifier<Map<String, List<Actor>>> {
 
   final GetActorsCallback getActors;
 

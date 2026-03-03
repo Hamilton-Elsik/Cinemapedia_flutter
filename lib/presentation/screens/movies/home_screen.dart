@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cinemapedia/presentation/views/views.dart';
+import 'package:flutter_cinemapedia/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   static const name = 'home-screen';
@@ -46,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen>
         // index. pageIndex
         children: viewRoutes,
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
+      bottomNavigationBar: CustomBottomNavigation(
         currentIndex: widget.pageIndex,
       ),
     );

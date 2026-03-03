@@ -1,3 +1,5 @@
+import 'package:flutter_cinemapedia/infrastructure/models/models.dart';
+
 import '../../domain/entities/entities.dart';
 
 class ActorMapper {
